@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-md-3">
+        <span class="hipster img-fluid rounded"></span>
+    </div>
+    <div class="col-md-9">
+        <h1 class="display-4">Welcome to the conference</h1>
+        <p class="lead">This is our homepage</p>
+
+        <div [ngSwitch]="isAuthenticated()">
+            <div class="alert alert-success" *ngSwitchCase="true">
+                <span id="home-logged-message" *ngIf="account"
+                   > You are logged in as user "{{account.login}}". </span>
+            </div>
+
+            <div class="alert alert-warning" *ngSwitchCase="false">
+                <span>If you want to </span>
+                <a class="alert-link" (click)="login()">sign in</a><span>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
+            </div>
+            <div class="alert alert-warning" *ngSwitchCase="false">
+                <span>You don't have an account yet?</span>&nbsp;
+                <a class="alert-link" routerLink="register">Register a new account</a>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="presentationName"><span>Presentation Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="presentationTheme"><span>Presentation Theme</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="presentationRoom"><span>Presentation Room</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="presentationDate"><span>Presentation Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let presentation of presentations ;trackBy: trackId">
+                <td><a [routerLink]="['/presentation', presentation.id, 'view' ]">{{presentation.id}}</a></td>
+                <td>{{presentation.presentationName}}</td>
+                <td>{{presentation.presentationTheme}}</td>
+                <td>{{presentation.presentationRoom}}</td>
+                <td>{{presentation.presentationDate | date:'medium'}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/presentation', presentation.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/presentation', presentation.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'presentation', { outlets: { popup: presentation.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+</div>

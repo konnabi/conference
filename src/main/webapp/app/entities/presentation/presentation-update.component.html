@@ -1,0 +1,83 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-presentation-heading">Create or edit a Presentation</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentationName">Presentation Name</label>
+                    <input type="text" class="form-control" name="presentationName" id="field_presentationName"
+                           formControlName="presentationName"/>
+                    <div *ngIf="editForm.get('presentationName').invalid && (editForm.get('presentationName').dirty || editForm.get('presentationName').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('presentationName').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentationTheme">Presentation Theme</label>
+                    <input type="text" class="form-control" name="presentationTheme" id="field_presentationTheme"
+                           formControlName="presentationTheme"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentationRoom">Presentation Room</label>
+                    <select class="form-control" name="presentationRoom" formControlName="presentationRoom" id="field_presentationRoom">
+                        <option value="A505">A505</option>
+                        <option value="F328">F328</option>
+                        <option value="C12">C12</option>
+                        <option value="B55">B55</option>
+                    </select>
+                    <div *ngIf="editForm.get('presentationRoom').invalid && (editForm.get('presentationRoom').dirty || editForm.get('presentationRoom').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('presentationRoom').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentationDate">Presentation Date</label>
+                    <div class="d-flex">
+                        <input id="field_presentationDate" type="datetime-local" class="form-control" name="presentationDate" formControlName="presentationDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('presentationDate').invalid && (editForm.get('presentationDate').dirty || editForm.get('presentationDate').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('presentationDate').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('presentationDate').errors?.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="field_owners">Owner</label>
+                    <select class="form-control" id="field_owners" multiple name="owners" formControlName="owners">
+                        <option [ngValue]="getSelected(editForm.get('owners').value, userOption)" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('owners').invalid && (editForm.get('owners').dirty || editForm.get('owners').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('owners').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

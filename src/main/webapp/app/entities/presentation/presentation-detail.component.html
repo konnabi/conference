@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="presentation">
+            <h2><span>Presentation</span> {{presentation.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Presentation Name</span></dt>
+                <dd>
+                    <span>{{presentation.presentationName}}</span>
+                </dd>
+                <dt><span>Presentation Theme</span></dt>
+                <dd>
+                    <span>{{presentation.presentationTheme}}</span>
+                </dd>
+                <dt><span>Presentation Room</span></dt>
+                <dd>
+                    <span>{{presentation.presentationRoom}}</span>
+                </dd>
+                <dt><span>Presentation Date</span></dt>
+                <dd>
+                    <span>{{presentation.presentationDate}}</span>
+                </dd>
+                <dt><span>Owner</span></dt>
+                <dd>
+                    <span *ngFor="let owner of presentation.owners; let last = last">
+                        {{owner.login}}{{last ? '' : ', '}}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/presentation', presentation.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

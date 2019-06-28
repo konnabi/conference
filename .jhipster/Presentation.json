@@ -1,0 +1,53 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipName": "owner",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-many",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "presentation"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "presentationName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "presentationTheme",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "presentationRoom",
+            "fieldType": "Rooms",
+            "fieldValues": "A505,F328,C12,B55",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "presentationDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20190627112427",
+    "dto": "mapstruct",
+    "searchEngine": false,
+    "service": "serviceClass",
+    "entityTableName": "presentation",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": false,
+    "pagination": "infinite-scroll"
+}
